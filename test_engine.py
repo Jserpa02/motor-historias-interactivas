@@ -111,11 +111,68 @@ class TestStoryEngine(unittest.TestCase):
         self.engine.tomar_opcion("investigar")
         self.engine.tomar_opcion("activar_codigo")
         self.assertNotEqual(self.estado(), inicial)
+        self.assertTrue(self.engine.puede_deshacer())
         self.engine.reiniciar()
         self.assertEqual(self.estado(), inicial)
         self.assertEqual(self.engine.escena_actual_id, "E1")
         self.assertFalse(self.engine.variables["conoce_origen"])
         self.assertFalse(self.engine.variables["confia_en_la_voz"])
+        # Reiniciar elimina el historial: no hay retroceso disponible
+        self.assertFalse(self.engine.puede_deshacer())
+        with self.assertRaises(ValueError):
+            self.engine.deshacer()
+        self.assertEqual(self.estado(), inicial)
+
+    # ---------- U6: deshacer última decisión (un solo nivel) ----------
+    def test_u6_deshacer_restaura_y_consume(self):
+        # Ejemplo del anexo: E2 investigar -> E3 (conoce=true); deshacer -> E2 (conoce=false)
+        self.engine.tomar_opcion("revisar")
+        self.engine.tomar_opcion("investigar")
+        self.assertEqual(self.engine.escena_actual_id, "E3")
+        self.assertTrue(self.engine.variables["conoce_origen"])
+        self.assertTrue(self.engine.puede_deshacer())
+        escena = self.engine.deshacer()
+        self.assertEqual(escena["id"], "E2")
+        self.assertEqual(self.engine.escena_actual_id, "E2")
+        self.assertFalse(self.engine.variables["conoce_origen"])
+        # Un segundo intento no cambia nada
+        estado = self.estado()
+        with self.assertRaises(ValueError):
+            self.engine.deshacer()
+        self.assertEqual(self.estado(), estado)
+        self.assertFalse(self.engine.puede_deshacer())
+
+    def test_u6_entrada_invalida_preserva_historial(self):
+        self.engine.tomar_opcion("revisar")
+        self.engine.tomar_opcion("investigar")
+        antes = self.estado()
+        with self.assertRaises(ValueError):
+            self.engine.tomar_opcion("activar_sin_verificar")  # deshabilitada
+        self.assertEqual(self.estado(), antes)
+        # El historial de la última elección válida sigue intacto
+        self.assertTrue(self.engine.puede_deshacer())
+        self.engine.deshacer()
+        self.assertEqual(self.engine.escena_actual_id, "E2")
+        self.assertFalse(self.engine.variables["conoce_origen"])
+
+    def test_u6_nueva_eleccion_rehabilita(self):
+        self.engine.tomar_opcion("revisar")
+        self.engine.tomar_opcion("investigar")
+        self.engine.deshacer()
+        self.assertFalse(self.engine.puede_deshacer())
+        # Nueva elección válida vuelve a habilitar un retroceso (otra rama)
+        self.engine.tomar_opcion("continuar")
+        self.assertTrue(self.engine.puede_deshacer())
+        self.assertEqual(
+            sorted([o["id"] for o in self.engine.obtener_opciones_disponibles()]),
+            sorted(["activar_sin_verificar", "cortar"]))
+
+    def test_u6_sin_historial_al_inicio(self):
+        self.assertFalse(self.engine.puede_deshacer())
+        antes = self.estado()
+        with self.assertRaises(ValueError):
+            self.engine.deshacer()
+        self.assertEqual(self.estado(), antes)
 
     # ---------- I1: archivo real + motor hasta un final ----------
     def test_i1_tres_finales(self):
@@ -132,6 +189,19 @@ class TestStoryEngine(unittest.TestCase):
                 self.assertEqual(motor.escena_actual_id, final)
                 self.assertTrue(motor.obtener_escena_actual()["final"])
                 self.assertEqual(motor.obtener_opciones_disponibles(), [])
+                # Extensión hora 6: deshacer desde el final regresa a E3 con valores previos
+                escena = motor.deshacer()
+                self.assertEqual(motor.escena_actual_id, "E3")
+                self.assertEqual(escena["id"], "E3")
+                self.assertFalse(motor.obtener_escena_actual()["final"])
+                if final == "E4":
+                    self.assertTrue(motor.variables["conoce_origen"])
+                    self.assertFalse(motor.variables["confia_en_la_voz"])
+                elif final == "E5":
+                    self.assertFalse(motor.variables["conoce_origen"])
+                    self.assertFalse(motor.variables["confia_en_la_voz"])
+                else:
+                    self.assertFalse(motor.variables["confia_en_la_voz"])
 
     # ---------- RNF01: segunda historia sin tocar el motor ----------
     def test_rnf01_segunda_historia(self):

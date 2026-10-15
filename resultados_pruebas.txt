@@ -1,5 +1,5 @@
 # Registro de ejecucion: python -m unittest test_engine -v
-# Fecha: 2026-10-14 20:57  Python: Python 3.14.4
+# Fecha: 2026-10-15  Python: Python 3.14.4
 test_bloqueo_sin_opciones_habilitadas (test_engine.TestStoryEngine.test_bloqueo_sin_opciones_habilitadas) ... ok
 test_i1_tres_finales (test_engine.TestStoryEngine.test_i1_tres_finales) ... ok
 test_rnf01_condicion_segunda_historia (test_engine.TestStoryEngine.test_rnf01_condicion_segunda_historia) ... ok
@@ -12,6 +12,10 @@ test_u2_efectos_y_destino (test_engine.TestStoryEngine.test_u2_efectos_y_destino
 test_u3_ca02_opcion_deshabilitada (test_engine.TestStoryEngine.test_u3_ca02_opcion_deshabilitada) ... ok
 test_u3_opcion_inexistente (test_engine.TestStoryEngine.test_u3_opcion_inexistente) ... ok
 test_u5_reiniciar (test_engine.TestStoryEngine.test_u5_reiniciar) ... ok
+test_u6_deshacer_restaura_y_consume (test_engine.TestStoryEngine.test_u6_deshacer_restaura_y_consume) ... ok
+test_u6_entrada_invalida_preserva_historial (test_engine.TestStoryEngine.test_u6_entrada_invalida_preserva_historial) ... ok
+test_u6_nueva_eleccion_rehabilita (test_engine.TestStoryEngine.test_u6_nueva_eleccion_rehabilita) ... ok
+test_u6_sin_historial_al_inicio (test_engine.TestStoryEngine.test_u6_sin_historial_al_inicio) ... ok
 test_ca03_destino_e99_en_archivo_no_abre_sesion (test_engine.TestValidacion.test_ca03_destino_e99_en_archivo_no_abre_sesion) ... ok
 test_rnf02_rechazo_en_menos_de_un_segundo (test_engine.TestValidacion.test_rnf02_rechazo_en_menos_de_un_segundo) ... ok
 test_u4_archivo_ilegible_no_abre_sesion (test_engine.TestValidacion.test_u4_archivo_ilegible_no_abre_sesion) ... ok
@@ -20,6 +24,6 @@ test_u4_historias_validas (test_engine.TestValidacion.test_u4_historias_validas)
 test_u4_rechazo_con_causa_e_id (test_engine.TestValidacion.test_u4_rechazo_con_causa_e_id) ... ok
 
 ----------------------------------------------------------------------
-Ran 18 tests in 0.064s
+Ran 22 tests in 0.025s
 
 OK

@@ -21,7 +21,16 @@ def jugar(filepath):
 
         if escena["final"]:
             print("\n*** FIN DE LA HISTORIA ***")
-            opcion = input("\n¿Desea reiniciar la partida? (s/n): ").strip().lower()
+            if engine.puede_deshacer():
+                print("Puede deshacer su última decisión con 'd'.")
+            opcion = input("\n¿Desea reiniciar la partida? (s/n) o 'd' para deshacer: ").strip().lower()
+            if opcion == 'd' and engine.puede_deshacer():
+                try:
+                    engine.deshacer()
+                    print("\n--- Última decisión deshecha ---")
+                except ValueError as e:
+                    print(f"No se puede deshacer: {e}")
+                continue
             if opcion == 's':
                 engine.reiniciar()
                 continue
@@ -42,10 +51,17 @@ def jugar(filepath):
         for idx, op in enumerate(opciones, 1):
             print(f"  {idx}. {op['texto']} (id: {op['id']})")
 
-        eleccion = input("\nSeleccione el número de la opción (o 'r' para reiniciar, 'q' para salir): ").strip().lower()
+        eleccion = input("\nSeleccione el número de la opción ('d' deshacer, 'r' reiniciar, 'q' salir): ").strip().lower()
         
         if eleccion == 'q':
             break
+        if eleccion == 'd':
+            try:
+                engine.deshacer()
+                print("\n--- Última decisión deshecha ---")
+            except ValueError as e:
+                print(f"No se puede deshacer: {e}")
+            continue
         if eleccion == 'r':
             engine.reiniciar()
             print("\n--- Partida reiniciada ---")

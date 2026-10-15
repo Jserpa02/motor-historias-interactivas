@@ -50,11 +50,17 @@ python main.py segunda_historia.json
 ---
 
 ## Ejecución de Pruebas Automatizadas
-Para correr la suite de pruebas unitarias y de integración (U1 a U5, I1 y validación de errores):
+Para correr la suite de pruebas unitarias y de integración (U1 a U6, I1 y validación de errores):
 ```bash
 python -m unittest test_engine -v
 ```
-Última ejecución verificada: 18 pruebas, OK (U1, U2, U3, U4 con `subTest` por categoría de error y comprobación de mensajes, U5, I1 con los tres finales, segunda historia, bloqueo, CA03 y RNF02 < 1 s). El registro está en `resultados_pruebas.txt`.
+Última ejecución verificada: 22 pruebas, OK (U1, U2, U3, U4 con `subTest` por categoría de error y comprobación de mensajes, U5 con borrado de historial, U6 deshacer de un nivel, I1 con los tres finales + deshacer desde final, segunda historia, bloqueo, CA03 y RNF02 < 1 s). El registro está en `resultados_pruebas.txt`.
+
+## Deshacer última decisión (anexo hora 6)
+- En partida escriba `d` para deshacer la última elección válida (restaura escena y variables, un solo nivel).
+- Al inicio o tras deshacer, `d` informa que no hay nada que deshacer y no cambia el estado.
+- Una entrada inválida no modifica la sesión ni el historial; una nueva elección válida vuelve a habilitar `d`.
+- Desde un final (E4/E5/E6) `d` regresa a E3 con los valores previos; `r` reinicia y borra el historial.
 
 ---
 
@@ -72,7 +78,7 @@ En E3 siempre se ven exactamente 2 opciones: `cortar` + la activación correspon
 
 ## Limitaciones conocidas
 - Sin persistencia entre ejecuciones, sin cuentas ni red (según límites del ejercicio).
-- Sin función de retroceso (acuerdo provisional documentado en el informe).
+- Deshacer de un solo nivel (anexo hora 6): sin rehacer; reiniciar borra el historial.
 - Solo condiciones de igualdad sobre booleanos y efectos de asignación true/false.
 - No se analizan automáticamente todos los caminos posibles; el bloqueo en escena no final se informa en tiempo de juego y permite reiniciar.
 

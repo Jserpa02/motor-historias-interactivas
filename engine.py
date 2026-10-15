@@ -18,6 +18,22 @@ class StoryEngine:
     def reiniciar(self):
         self.escena_actual_id = self.inicio
         self.variables = dict(self.variables_iniciales)
+        self._prev_escena = None
+        self._prev_vars = None
+        self._puede_deshacer = False
+
+    def puede_deshacer(self):
+        return self._puede_deshacer
+
+    def deshacer(self):
+        if not self._puede_deshacer:
+            raise ValueError("No hay decisión válida para deshacer.")
+        self.escena_actual_id = self._prev_escena
+        self.variables = dict(self._prev_vars)
+        self._prev_escena = None
+        self._prev_vars = None
+        self._puede_deshacer = False
+        return self.obtener_escena_actual()
 
     def obtener_escena_actual(self):
         return self.escenas[self.escena_actual_id]
@@ -49,6 +65,11 @@ class StoryEngine:
         
         if not opcion_elegida:
             raise ValueError(f"La opción '{opcion_id}' no existe o no está habilitada en la escena actual.")
+
+        # Guardar snapshot previo (un solo nivel) antes de mutar
+        self._prev_escena = self.escena_actual_id
+        self._prev_vars = dict(self.variables)
+        self._puede_deshacer = True
 
         # Aplicar efectos
         for var, nuevo_valor in opcion_elegida["efectos"].items():
