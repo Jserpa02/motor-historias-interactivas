@@ -1,0 +1,60 @@
+{
+  "titulo": "El Laboratorio Subterráneo",
+  "inicio": "L1",
+  "variables": {
+    "tiene_llave": false
+  },
+  "escenas": [
+    {
+      "id": "L1",
+      "texto": "Te encuentras frente a una puerta blindada cerrada con llave en el laboratorio abandonado.",
+      "final": false,
+      "opciones": [
+        {
+          "id": "buscar",
+          "texto": "Buscar en el escritorio cercano",
+          "destino": "L2",
+          "condiciones": {},
+          "efectos": {
+            "tiene_llave": true
+          }
+        },
+        {
+          "id": "forzar",
+          "texto": "Intentar forzar la puerta sin llave",
+          "destino": "L3",
+          "condiciones": {},
+          "efectos": {}
+        }
+      ]
+    },
+    {
+      "id": "L2",
+      "texto": "¡Encontraste la llave magnética en el cajón! Ahora puedes abrir la puerta con seguridad.",
+      "final": false,
+      "opciones": [
+        {
+          "id": "abrir_con_llave",
+          "texto": "Abrir puerta con llave",
+          "destino": "L4",
+          "condiciones": {
+            "tiene_llave": true
+          },
+          "efectos": {}
+        }
+      ]
+    },
+    {
+      "id": "L3",
+      "texto": "La puerta hace saltar la alarma de seguridad y se bloquea permanentemente. Misión fallida.",
+      "final": true,
+      "opciones": []
+    },
+    {
+      "id": "L4",
+      "texto": "La puerta se abre suavemente revelando el núcleo de energía intacto. ¡Has tenido éxito!",
+      "final": true,
+      "opciones": []
+    }
+  ]
+}
