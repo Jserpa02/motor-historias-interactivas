@@ -4,6 +4,22 @@ import os
 from engine import StoryEngine
 from validator import ValidationError
 
+def _menu_cierre(engine):
+    """Menu para finales y bloqueos. Devuelve True si la partida continua."""
+    while True:
+        extra = ", 'u' deshacer" if engine.puede_deshacer() else ""
+        opcion = input(f"¿Qué desea hacer? ('s' reiniciar{extra}, 'n' salir): ").strip().lower()
+        if opcion == 's':
+            engine.reiniciar()
+            return True
+        if opcion == 'u' and engine.puede_deshacer():
+            engine.deshacer()
+            print("\n--- Última decisión deshecha ---")
+            return True
+        if opcion == 'n':
+            return False
+        print("Opción no válida.")
+
 def jugar(filepath):
     try:
         engine = StoryEngine(filepath)
@@ -22,34 +38,36 @@ def jugar(filepath):
 
         if escena["final"]:
             print("\n*** FIN DE LA HISTORIA ***")
-            opcion = input("\n¿Desea reiniciar la partida? (s/n): ").strip().lower()
-            if opcion == 's':
-                engine.reiniciar()
-                continue
-            else:
+            if not _menu_cierre(engine):
                 break
+            continue
 
         opciones = engine.obtener_opciones_disponibles()
         if not opciones:
             print("\n[BLOQUEO] No hay opciones disponibles en esta escena no final.")
-            opcion = input("¿Desea reiniciar la partida? (s/n): ").strip().lower()
-            if opcion == 's':
-                engine.reiniciar()
-                continue
-            else:
+            if not _menu_cierre(engine):
                 break
+            continue
 
         print("\nOpciones disponibles:")
         for idx, op in enumerate(opciones, 1):
             print(f"  {idx}. {op['texto']} (id: {op['id']})")
 
-        eleccion = input("\nSeleccione el número de la opción (o 'r' para reiniciar, 'q' para salir): ").strip().lower()
-        
+        extra = ", 'u' para deshacer" if engine.puede_deshacer() else ""
+        eleccion = input(f"\nSeleccione el número de la opción (o 'r' para reiniciar{extra}, 'q' para salir): ").strip().lower()
+
         if eleccion == 'q':
             break
         if eleccion == 'r':
             engine.reiniciar()
             print("\n--- Partida reiniciada ---")
+            continue
+        if eleccion == 'u':
+            if engine.puede_deshacer():
+                engine.deshacer()
+                print("\n--- Última decisión deshecha ---")
+            else:
+                print("No hay ninguna decisión para deshacer.")
             continue
 
         try:

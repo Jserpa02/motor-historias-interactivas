@@ -18,6 +18,22 @@ class StoryEngine:
     def reiniciar(self):
         self.escena_actual_id = self.inicio
         self.variables = dict(self.variables_iniciales)
+        # RF-UNDO: un solo nivel. None = no hay retroceso disponible.
+        self._estado_previo = None
+
+    def puede_deshacer(self):
+        return self._estado_previo is not None
+
+    def deshacer(self):
+        """Restaura escena y variables anteriores a la ultima eleccion valida.
+        Consume el retroceso: no se puede deshacer de nuevo hasta una nueva eleccion."""
+        if self._estado_previo is None:
+            raise ValueError("No hay ninguna decisión para deshacer.")
+        escena_id, variables = self._estado_previo
+        self.escena_actual_id = escena_id
+        self.variables = dict(variables)
+        self._estado_previo = None
+        return self.obtener_escena_actual()
 
     def obtener_escena_actual(self):
         return self.escenas[self.escena_actual_id]
@@ -49,6 +65,10 @@ class StoryEngine:
         
         if not opcion_elegida:
             raise ValueError(f"La opción '{opcion_id}' no existe o no está habilitada en la escena actual.")
+
+        # Guardar copia del estado SOLO cuando la opcion ya se valido como habilitada
+        # (una entrada invalida no llega aqui, asi que no pisa el historial).
+        self._estado_previo = (self.escena_actual_id, dict(self.variables))
 
         # Aplicar efectos
         for var, nuevo_valor in opcion_elegida["efectos"].items():
