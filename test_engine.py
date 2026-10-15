@@ -15,7 +15,7 @@ class TestStoryEngine(unittest.TestCase):
         self.assertFalse(self.engine.variables["conoce_origen"])
 
         # Elegir revisar señal -> E2
-        escena = self.engine.tomar_opcion("revisar_senal")
+        escena = self.engine.tomar_opcion("revisar")
         self.assertEqual(escena["id"], "E2")
 
         # En E2, elegir investigar archivo -> E3 (efecto conoce_origen = true)
@@ -47,7 +47,7 @@ class TestStoryEngine(unittest.TestCase):
 
     def test_u3_ca02_opcion_deshabilitada_rechazada(self):
         # CA02: En E3 sin conocer origen, activar_codigo debe rechazarse aunque se envíe su ID directamente
-        self.engine.tomar_opcion("revisar_senal")
+        self.engine.tomar_opcion("revisar")
         self.engine.tomar_opcion("continuar")  # llega a E3 con conoce_origen=False
         self.assertEqual(self.engine.escena_actual_id, "E3")
         self.assertFalse(self.engine.variables["conoce_origen"])
@@ -62,7 +62,7 @@ class TestStoryEngine(unittest.TestCase):
         self.assertTrue(escena["final"])
 
     def test_u5_reiniciar(self):
-        self.engine.tomar_opcion("revisar_senal")
+        self.engine.tomar_opcion("revisar")
         self.engine.tomar_opcion("investigar")
         self.assertTrue(self.engine.variables["conoce_origen"])
         

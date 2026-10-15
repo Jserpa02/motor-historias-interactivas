@@ -3,8 +3,8 @@
 Parcial Práctico de Ingeniería de Software.
 
 ## Integrantes
-- **Integrante 1:** [Nombre y Apellido]
-- **Integrante 2:** [Nombre y Apellido]
+- **Integrante 1:** Daniel Sanchez
+- **Integrante 2:** Juan Diego Serpa
 
 ---
 
@@ -62,8 +62,8 @@ python -m unittest test_engine.py
 
 Estado inicial: `E1`, `conoce_origen=false`, `confia_en_la_voz=false`.
 
-- **Final E4 (Rescate):** E1 `revisar_senal` → E2 `investigar` (pone `conoce_origen=true`) → E3 muestra `activar_codigo` + `cortar` → `activar_codigo` → **E4**.
-- **Final E5 (El eco):** E1 `revisar_senal` → E2 `continuar` (`conoce_origen=false`) → E3 muestra `activar_sin_verificar` + `cortar` → `activar_sin_verificar` → **E5**.
+- **Final E4 (Rescate):** E1 `revisar` → E2 `investigar` (pone `conoce_origen=true`) → E3 muestra `activar_codigo` + `cortar` → `activar_codigo` → **E4**.
+- **Final E5 (El eco):** E1 `revisar` → E2 `continuar` (`conoce_origen=false`) → E3 muestra `activar_sin_verificar` + `cortar` → `activar_sin_verificar` → **E5**.
 - **Final E6 (Silencio):** Desde E3 (cualquiera de las dos rutas anteriores) → `cortar` → **E6**.
 
 En E3 siempre se ven exactamente 2 opciones: `cortar` + la activación correspondiente a `conoce_origen`.

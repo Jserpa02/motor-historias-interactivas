@@ -12,7 +12,7 @@
       "final": false,
       "opciones": [
         {
-          "id": "revisar_senal",
+          "id": "revisar",
           "texto": "Revisar señal",
           "destino": "E2",
           "condiciones": {},
