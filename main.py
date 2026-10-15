@@ -1,13 +1,12 @@
 import json
 import sys
-import os
 from engine import StoryEngine
 from validator import ValidationError
 
 def jugar(filepath):
     try:
         engine = StoryEngine(filepath)
-    except (ValidationError, json.JSONDecodeError, FileNotFoundError) as e:
+    except (ValidationError, ValueError, OSError) as e:
         print(f"Error al cargar la historia: {e}")
         return
 
@@ -67,8 +66,4 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         archivo = sys.argv[1]
     
-    if not os.path.exists(archivo):
-        print(f"No se encontró el archivo '{archivo}'. Usando 'la_ultima_transmision.json'.")
-        archivo = "la_ultima_transmision.json"
-        
     jugar(archivo)

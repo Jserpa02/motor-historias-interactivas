@@ -1,0 +1,25 @@
+# Registro de ejecucion: python -m unittest test_engine -v
+# Fecha: 2026-10-14 20:57  Python: Python 3.14.4
+test_bloqueo_sin_opciones_habilitadas (test_engine.TestStoryEngine.test_bloqueo_sin_opciones_habilitadas) ... ok
+test_i1_tres_finales (test_engine.TestStoryEngine.test_i1_tres_finales) ... ok
+test_rnf01_condicion_segunda_historia (test_engine.TestStoryEngine.test_rnf01_condicion_segunda_historia) ... ok
+test_rnf01_segunda_historia (test_engine.TestStoryEngine.test_rnf01_segunda_historia) ... ok
+test_u1_condicion_cumplida_en_e3 (test_engine.TestStoryEngine.test_u1_condicion_cumplida_en_e3) ... ok
+test_u1_condicion_no_cumplida_en_e3 (test_engine.TestStoryEngine.test_u1_condicion_no_cumplida_en_e3) ... ok
+test_u1_mapa_vacio_habilita (test_engine.TestStoryEngine.test_u1_mapa_vacio_habilita) ... ok
+test_u2_efecto_falso_en_cortar (test_engine.TestStoryEngine.test_u2_efecto_falso_en_cortar) ... ok
+test_u2_efectos_y_destino (test_engine.TestStoryEngine.test_u2_efectos_y_destino) ... ok
+test_u3_ca02_opcion_deshabilitada (test_engine.TestStoryEngine.test_u3_ca02_opcion_deshabilitada) ... ok
+test_u3_opcion_inexistente (test_engine.TestStoryEngine.test_u3_opcion_inexistente) ... ok
+test_u5_reiniciar (test_engine.TestStoryEngine.test_u5_reiniciar) ... ok
+test_ca03_destino_e99_en_archivo_no_abre_sesion (test_engine.TestValidacion.test_ca03_destino_e99_en_archivo_no_abre_sesion) ... ok
+test_rnf02_rechazo_en_menos_de_un_segundo (test_engine.TestValidacion.test_rnf02_rechazo_en_menos_de_un_segundo) ... ok
+test_u4_archivo_ilegible_no_abre_sesion (test_engine.TestValidacion.test_u4_archivo_ilegible_no_abre_sesion) ... ok
+test_u4_archivo_inexistente (test_engine.TestValidacion.test_u4_archivo_inexistente) ... ok
+test_u4_historias_validas (test_engine.TestValidacion.test_u4_historias_validas) ... ok
+test_u4_rechazo_con_causa_e_id (test_engine.TestValidacion.test_u4_rechazo_con_causa_e_id) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.064s
+
+OK

@@ -54,6 +54,8 @@ def validar_historia(data):
         escenas_map[eid] = escena
 
     # Validar escena inicial
+    if not isinstance(inicio, str):
+        raise ValidationError("El campo 'inicio' debe ser un texto con el ID de una escena.")
     if inicio not in ids_escenas:
         raise ValidationError(f"La escena inicial '{inicio}' no existe en la lista de escenas.")
 
@@ -77,11 +79,15 @@ def validar_historia(data):
                     raise ValidationError(f"Falta el campo '{req}' en una opción de la escena '{eid}'.")
 
             oid = opcion["id"]
+            if not isinstance(oid, str):
+                raise ValidationError(f"El ID de una opción de la escena '{eid}' debe ser un texto.")
             if oid in ids_opciones:
                 raise ValidationError(f"ID de opción duplicado '{oid}' dentro de la escena '{eid}'.")
             ids_opciones.add(oid)
 
             destino = opcion["destino"]
+            if not isinstance(destino, str):
+                raise ValidationError(f"El destino de la opción '{oid}' en la escena '{eid}' debe ser un texto.")
             if destino not in ids_escenas:
                 raise ValidationError(f"La opción '{oid}' en la escena '{eid}' apunta a un destino inexistente '{destino}'.")
 

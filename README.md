@@ -52,9 +52,9 @@ python main.py segunda_historia.json
 ## Ejecución de Pruebas Automatizadas
 Para correr la suite de pruebas unitarias y de integración (U1 a U5, I1 y validación de errores):
 ```bash
-python -m unittest test_engine.py
+python -m unittest test_engine -v
 ```
-Última ejecución verificada: 7 pruebas, OK (U1, U2, U3x2, U4 parametrizado en 9 categorías, U5, I1/segunda historia, bloqueo).
+Última ejecución verificada: 18 pruebas, OK (U1, U2, U3, U4 con `subTest` por categoría de error y comprobación de mensajes, U5, I1 con los tres finales, segunda historia, bloqueo, CA03 y RNF02 < 1 s). El registro está en `resultados_pruebas.txt`.
 
 ---
 
